@@ -34,7 +34,7 @@ RUN pip install mock grpcio
 
 ENV BAZELRC /root/.bazelrc
 # Install the most recent bazel release.
-ENV BAZEL_VERSION 0.5.4
+ENV BAZEL_VERSION 0.12.0
 WORKDIR /
 RUN mkdir /bazel && \
     cd /bazel && \
@@ -44,5 +44,8 @@ RUN mkdir /bazel && \
     ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
     cd / && \
     rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+
+RUN git clone --recurse-submodules https://github.com/tensorflow/serving
+RUN cd /serving && bazel build -c opt tensorflow_serving/...
 
 CMD ["/bin/bash"]
