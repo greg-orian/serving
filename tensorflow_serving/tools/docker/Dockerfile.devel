@@ -45,6 +45,9 @@ RUN mkdir /bazel && \
     cd / && \
     rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
 
+EXPOSE 9000
+RUN mkdir /model
+VOLUME /model
 RUN git clone --recurse-submodules https://github.com/tensorflow/serving
 RUN cd /serving && bazel build -c opt tensorflow_serving/...
 
